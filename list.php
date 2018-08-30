@@ -5,29 +5,19 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- 위 3개의 메타 태그는 *반드시* head 태그의 처음에 와야합니다; 어떤 다른 콘텐츠들은 반드시 이 태그들 *다음에* 와야 합니다 -->
     <title>다희의 게시판</title>
 
     <!-- 부트스트랩 -->
     <link href="http://localhost/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- IE8 에서 HTML5 요소와 미디어 쿼리를 위한 HTML5 shim 와 Respond.js -->
-    <!-- WARNING: Respond.js 는 당신이 file:// 을 통해 페이지를 볼 때는 동작하지 않습니다. -->
-    <!--[if lt IE 9]>
-    <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-    <![endif]-->
     <br />
     <center><h1>게 시 판 목 록</h1></center><br/>
 </head>
 <body>
-<!-- jQuery (부트스트랩의 자바스크립트 플러그인을 위해 필요합니다) -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
-<!-- 모든 컴파일된 플러그인을 포함합니다 (아래), 원하지 않는다면 필요한 각각의 파일을 포함하세요 -->
 <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
-
 
 
 <?php
@@ -40,37 +30,38 @@ $mysql_handler = connectDB();
 mysqli_select_db($mysql_handler,"new");
 selectDB($mysql_handler);
 
-$user_id= $_SESSION['user_id']; //세션 넣을 부분
+$user_id= $_SESSION['user_id']; //Session Insert
 $user_name= $_SESSION['name'];
 
 echo "<div style='text-align:right'>".$_SESSION['name']."님이 로그인 하셨습니다"."</div>";
 echo "<br />";
-//------------------ 게시판 페이지네이션 부분 --------------------
+
+//------------------ board pagination  part --------------------
 
 $sql = "SELECT * FROM board";
 $result=mysqli_query($mysql_handler, $sql);
 
-$page_per_record =5; //한 페이지당 표시할 자료의 개수 --- 5개
-$block_per_page=5; // 글 밑에 목록  --- 5개
-$now_page=$_GET['page']; //현재 페이지 번호
-$total_record = mysqli_num_rows($result); //전체 올라온 게시글 수
+$page_per_record =5; //Number of data to display per page --- 5개
+$block_per_page=5; // List at the bottom of the article  --- 5개
+$now_page=$_GET['page']; //Current Page Number
+$total_record = mysqli_num_rows($result); //Total number of posts uploaded
 
 $total_page = ceil($total_record/$page_per_record);
-//맨 밑에 구현해야 할 페이지개수 (13개면/5) -> 올림해서 3개 나타남
+//Number of pages to be implemented at the bottom (13개면/5) -> 올림해서 3개 나타남
 
-$now_block = ceil($now_page/$block_per_page);//현재 페이지가 속해있는 블록 번호
+$now_block = ceil($now_page/$block_per_page);//Block number to which the current page belongs
 
-$start_record = (($now_page-1)*$page_per_record);//가져올 레코드 시작번호
-$start_page = (($now_block-1)*$block_per_page)+1; //가져올 페이지 시작 번호
+$start_record = (($now_page-1)*$page_per_record);//Record start number to import
+$start_page = (($now_block-1)*$block_per_page)+1; //Page start number to import
 
 $sql= "select * from board  where board_pid = 0 order by board_id desc limit $start_record, $page_per_record";
 $result = mysqli_query($mysql_handler, $sql);
 
-$end_page = ( ($start_page+$block_per_page) <= $total_page )? ($start_page+$block_per_page) : $total_page; //마지막 페이지*/
+$end_page = ( ($start_page+$block_per_page) <= $total_page )? ($start_page+$block_per_page) : $total_page; //the last page
 
 
 
-//-------------------게시판 body 부분-----------------------------
+//------------------- board body  part -----------------------------
 
 echo "<center>";
 echo "<table class='table table-hover'>";
@@ -93,7 +84,7 @@ while($row= mysqli_fetch_array($result)){
 echo "</center>";
 echo "</table>";
 
-// -------------------------------페이지 네이션 결과---------------------------------
+// --------------------------- PageNation Results --------------------------------
 echo "<center>";
 echo "<td>";
 echo "<a href=$_SERVER[PHP_SELF]?page=1> ◀ </a>";
