@@ -14,11 +14,11 @@ if($_SERVER["REQUEST_METHOD"]=="POST"){
 
 $board_id=0;
 $board_pid=0;
-$user_id= $_SESSION['user_id']; //세션 넣을 부분
-$user_name= $_SESSION['name']; //세션 넣을 부분
+$user_id= $_SESSION['user_id']; //Session Insert - id
+$user_name= $_SESSION['name']; //Session Insert - name
 $subject = $_POST['subject'];
 $contents = $_POST['contents'];
-$hits=0; //게시물당 접속자수
+$hits=0; //Number of people accessed per post
 $reg_date = date("Y-m-d H:i:s");
 
 
