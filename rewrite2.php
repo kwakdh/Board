@@ -22,6 +22,7 @@ $result0 = mysqli_query($mysql_handler, $sql0);
 $row0 = mysqli_fetch_array($result0);
 $userid = $row0['user_id'];
 
+//If the current writer's ID and session ID are the same
 if ($userid == $id) {
     if ($pw == $post_pw) {
 
@@ -30,12 +31,13 @@ if ($userid == $id) {
         echo "<script>alert('성공적으로 수정 되었습니다.')</script>";
         echo "<script>location.replace('listup.php?board_id=$board_id')</script>";
 
-    } else {//비밀번호가 일치하지 않은 경우
+    } else {//Passwords do not match
         echo "<script>alert('비밀번호가 틀립니다.');
            history.go(-1);
 </script>";
     }
-} else {
+} //If the current recorder's ID and session ID are not the same
+else {
     echo "<script>alert('관리자 권한이 없습니다.');
     history.go(-1);
     </script>";
