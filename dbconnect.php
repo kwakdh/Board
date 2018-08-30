@@ -13,7 +13,7 @@ function connectDB()
 
     return $mysql_handler;
 }
-//--------------------------데이터 베이스 생성------------------------------
+//--------------------------Create Database------------------------------
 
 function selectDB($mysql_handler)
 {
